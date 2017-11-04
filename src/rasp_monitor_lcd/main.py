@@ -12,12 +12,12 @@ line2 = None
 
 
 def read_line1():
-    with open(save_th.TH_FILE_NAME) as f:
+    with open('/home/pi/{}'.format(save_th.TH_FILE_NAME)) as f:
         return f.read()
 
 
 def read_line2():
-    with open(save_cqi.CQI_FILE_NAME) as f:
+    with open('/home/pi/{}'.format(save_cqi.CQI_FILE_NAME)) as f:
         return f.read()
 
 
