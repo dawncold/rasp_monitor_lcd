@@ -18,7 +18,7 @@ def get_th():
         except:
             continue
         if t and h:
-            return t, h
+            return '{}, {}'.format(t, h)
 
 
 def get_cqi():
