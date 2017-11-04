@@ -1,5 +1,4 @@
 # -*- coding: UTF-8 -*-
-from __future__ import unicode_literals, print_function, division
 # --------------------------------------
 #    ___  ___  _ ____
 #   / _ \/ _ \(_) __/__  __ __
@@ -202,6 +201,8 @@ def lcd_toggle_enable():
 
 
 def lcd_string(message, line):
+    if isinstance(message, unicode):
+        message = message.encode('UTF-8')
     # Send string to display
     message = message.ljust(LCD_WIDTH, " ")
 
