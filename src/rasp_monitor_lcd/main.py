@@ -11,25 +11,27 @@ PIN = 4
 lcd.init_lcd()
 
 
-def get_th():
+def get_humidity_and_temperature():
     while 1:
         try:
-            t, h = Adafruit_DHT.read_retry(Adafruit_DHT.DHT11, PIN)
+            h, t = Adafruit_DHT.read_retry(Adafruit_DHT.DHT11, PIN)
         except:
             continue
         if t and h:
-            return '{}, {}'.format(t, h)
+            return '{}, {}'.format(h, t)
 
 
 def get_cqi():
     while 1:
         data = read_cqi.read_data()
         if data:
-            return '{},{},{}'.format(data[str(read_cqi.P_C_PM10)], data[str(read_cqi.P_C_PM25)], data[str(read_cqi.P_C_PM100)])
+            return '{}, {}, {}'.format(data[str(read_cqi.P_C_PM10)], data[str(read_cqi.P_C_PM25)], data[str(read_cqi.P_C_PM100)])
 
 
 while 1:
-    line1 = get_th()
+    lcd.lcd_string('Reading h&t', lcd.LCD_LINE_1)
+    line1 = get_humidity_and_temperature()
+    lcd.lcd_string('Reading CQI...', lcd.LCD_LINE_2)
     line2 = get_cqi()
     lcd.lcd_string(line1, lcd.LCD_LINE_1)
     lcd.lcd_string(line2, lcd.LCD_LINE_2)
