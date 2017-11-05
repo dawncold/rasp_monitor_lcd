@@ -39,15 +39,15 @@ def get_frame(_serial):
     while True:
         b = _serial.read()
         if b != chr(HEAD_FIRST):
-            print('skip-1: {:02X}'.format(ord(b)))
+            # print('skip-1: {:02X}'.format(ord(b)))
             continue
         b = _serial.read()
         if b != chr(HEAD_SECOND):
-            print('skip-2: {:02X}'.format(ord(b)))
+            # print('skip-2: {:02X}'.format(ord(b)))
             continue
         body = _serial.read(BODY_LENGTH)
         if len(body) != BODY_LENGTH:
-            print('skip: invalid body')
+            # print('skip: invalid body')
             continue
         return body
 
@@ -75,7 +75,7 @@ def decode_frame(_frame):
     for item in DATA_DESC:
         start, desc, unit = item
         value = int(ord(_frame[start]) << 8 | ord(_frame[start + 1]))
-        print('{} {} {}'.format(desc, value, unit))
+        # print('{} {} {}'.format(desc, value, unit))
         data[str(start)] = value
     return data
 
@@ -85,17 +85,18 @@ def read_data():
     try:
         frame = get_frame(ser)
     except Exception as e:
-        print('get frame got exception: {}'.format(e.message))
+        pass
+        # print('get frame got exception: {}'.format(e.message))
     else:
-        print(' '.join('{:02X}'.format(ord(a)) for a in frame))
+        # print(' '.join('{:02X}'.format(ord(a)) for a in frame))
         if not valid_frame_checksum(frame):
-            print('frame checksum mismatch')
+            # print('frame checksum mismatch')
             return
-        print('frame length: {}'.format(get_frame_length(frame)))
+        # print('frame length: {}'.format(get_frame_length(frame)))
         data = decode_frame(frame)
         version, error_code = get_version_and_error_code(frame)
-        print('version: 0x{:02x}'.format(ord(version)))
-        print('error_code: 0x{:02x}'.format(ord(error_code)))
+        # print('version: 0x{:02x}'.format(ord(version)))
+        # print('error_code: 0x{:02x}'.format(ord(error_code)))
         data['version'] = version
         data['errcode'] = error_code
         return data
